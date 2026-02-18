@@ -111,30 +111,13 @@ curl -X POST "http://127.0.0.1:8000/upload" `
   -F "file=@...pdf;type=application/pdf"
 ```
 
-## Notes on OCR Reliability
-- Scanned certificates with decorative backgrounds and tiny boxed digits are challenging.
-- National ID extraction is strongest when:
-  - image resolution is high
-  - scan is straight (minimal rotation/perspective)
-  - boxed digits are not compressed/blurry
-- The `debug` payload is intentionally verbose to make failures diagnosable.
 
 ## Troubleshooting
 - If PaddleOCR initialization fails:
   - verify virtual environment is active
   - pin compatible `numpy`/`paddlepaddle`/`paddleocr` versions from `requirements.txt`
-- If text length is very low:
-  - source file may be image-only or heavily compressed
-  - retry with clearer scan or native PDF export
-- If GPA mismatch appears:
-  - ensure submitted value matches printed certificate value exactly 
 
-## Development Guidelines
-- Keep extraction rules deterministic and testable.
-- Prefer narrow regex/rule changes over broad fuzzy matching.
-- Preserve `debug` metadata for every extraction fallback path.
-
----
+------
 
 ## الدليل بالعربية
 
@@ -201,15 +184,8 @@ curl -X POST "http://127.0.0.1:8000/upload" `
 - `comparison_details`: درجة المطابقة لكل حقل
 - `debug`: تفاصيل OCR والاستخراج لتسهيل التشخيص
 
-### ملاحظات مهمة
-- استخراج الرقم القومي من صور ممسوحة ضعيفة الجودة يظل تحديًا، خاصة عند وجود أرقام صغيرة داخل مربعات.
-- جودة الصورة، وضوح النص، واستقامة المسح الضوئي تؤثر بشكل مباشر على الدقة.
-- عند وجود اختلاف في `gpa`  ستظهر النتيجة غالبًا `PARTIAL_MATCH`.
 
 ### استكشاف الأخطاء
 - إذا فشل PaddleOCR في الإقلاع:
   - تأكد أن البيئة الافتراضية `.venv` مفعلة.
   - راجع توافق إصدارات `numpy` و`paddlepaddle` و`paddleocr`.
-- إذا كان النص المستخرج قصيرًا جدًا:
-  - الملف قد يكون صورة ممسوحة منخفضة الجودة.
-  - جرب نسخة PDF أوضح أو صورة بدقة أعلى.
